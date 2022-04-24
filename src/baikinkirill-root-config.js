@@ -10,12 +10,15 @@ const routes = constructRoutes(microfrontendLayout);
 const applications = constructApplications({
   routes,
   loadApp({ name }) {
-    console.log(name);
     return System.import(name);
   },
 });
 const layoutEngine = constructLayoutEngine({ routes, applications });
 
-applications.forEach(registerApplication);
+applications.forEach((e) => {
+  let app = { ...e, customProps: {} };
+  app.customProps.someValue = "someValue";
+  registerApplication(app);
+});
 layoutEngine.activate();
 start();
